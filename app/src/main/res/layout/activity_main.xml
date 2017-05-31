@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="yd.cafe1637.MainActivity"
+    android:background="@color/colorPrimary">
+
+
+    <TabHost
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tabHost">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/tab1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#2196F3"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="TAB CONTENT 1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#2196F3"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="TAB CONTENT 2" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hello World!"
+                        android:textColor="#FFFFFF"/>
+
+                    <Button
+                        android:text="QR 코드 읽기"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textView"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="48dp"
+                        android:id="@+id/button_readQR" />
+
+                    <Button
+                        android:text="QR 코드 생성"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/button_readQR"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="22dp"
+                        android:id="@+id/button_createQR" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@color/zxing_possible_result_points"
+                        android:layout_below="@+id/button_createQR"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="71dp"
+                        android:id="@+id/imageView" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#2196F3"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="TAB CONTENT 4" />
+
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </TabHost>
+
+</RelativeLayout>
