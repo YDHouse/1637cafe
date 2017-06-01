@@ -1,42 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textColor="#FFFFFF"/>
 
-    <Button
-        android:text="QR 코드 읽기"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="48dp"
-        android:id="@+id/button_readQR" />
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
 
-    <Button
-        android:text="QR 코드 생성"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_readQR"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="22dp"
-        android:id="@+id/button_createQR" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@color/zxing_possible_result_points"
-        android:layout_below="@+id/button_createQR"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="71dp"
-        android:id="@+id/imageView" />
+            <Button
+                android:id="@+id/btn_coupon_01"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="1" />
+
+            <Button
+                android:id="@+id/btn_coupon_02"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="11dp"
+                android:layout_toEndOf="@+id/btn_coupon_01"
+                android:enabled="false"
+                android:text="2" />
+
+            <Button
+                android:id="@+id/btn_coupon_03"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="11dp"
+                android:layout_toEndOf="@+id/btn_coupon_02"
+                android:enabled="false"
+                android:text="3" />
+
+            <Button
+                android:id="@+id/btn_coupon_04"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="11dp"
+                android:layout_toEndOf="@+id/btn_coupon_03"
+                android:enabled="false"
+                android:text="4" />
+
+            <Button
+                android:id="@+id/btn_coupon_05"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="11dp"
+                android:layout_toEndOf="@+id/btn_coupon_04"
+                android:enabled="false"
+                android:text="5" />
+
+            <Button
+                android:id="@+id/btn_coupon_06"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/btn_coupon_01"
+                android:enabled="false"
+                android:text="6" />
+
+            <Button
+                android:id="@+id/btn_coupon_07"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignStart="@+id/btn_coupon_02"
+                android:layout_below="@+id/btn_coupon_02"
+                android:enabled="false"
+                android:text="7" />
+
+            <Button
+                android:id="@+id/btn_coupon_08"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignStart="@+id/btn_coupon_03"
+                android:layout_below="@+id/btn_coupon_03"
+                android:enabled="false"
+                android:text="8" />
+
+            <Button
+                android:id="@+id/btn_coupon_09"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignStart="@+id/btn_coupon_04"
+                android:layout_below="@+id/btn_coupon_04"
+                android:enabled="false"
+                android:text="9" />
+
+            <Button
+                android:id="@+id/btn_coupon_10"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignStart="@+id/btn_coupon_05"
+                android:layout_below="@+id/btn_coupon_05"
+                android:enabled="false"
+                android:text="10" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_coupon_used_01"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:enabled="false"
+                android:text="아메리카노\n\n1잔"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
