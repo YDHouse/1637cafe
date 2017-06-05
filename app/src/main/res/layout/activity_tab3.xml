@@ -23,7 +23,6 @@
                 android:id="@+id/btn_coupon_01"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:tag="1"
                 android:text="1" />
 
             <Button
@@ -33,8 +32,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="11dp"
                 android:layout_toEndOf="@+id/btn_coupon_01"
-                android:enabled="false"
-                android:tag="2"
                 android:text="2" />
 
             <Button
@@ -44,8 +41,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="11dp"
                 android:layout_toEndOf="@+id/btn_coupon_02"
-                android:enabled="false"
-                android:tag="3"
                 android:text="3" />
 
             <Button
@@ -55,8 +50,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="11dp"
                 android:layout_toEndOf="@+id/btn_coupon_03"
-                android:enabled="false"
-                android:tag="4"
                 android:text="4" />
 
             <Button
@@ -66,8 +59,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="11dp"
                 android:layout_toEndOf="@+id/btn_coupon_04"
-                android:enabled="false"
-                android:tag="5"
                 android:text="5" />
 
             <Button
@@ -76,8 +67,6 @@
                 android:layout_height="40dp"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/btn_coupon_01"
-                android:enabled="false"
-                android:tag="6"
                 android:text="6" />
 
             <Button
@@ -86,8 +75,6 @@
                 android:layout_height="40dp"
                 android:layout_alignStart="@+id/btn_coupon_02"
                 android:layout_below="@+id/btn_coupon_02"
-                android:enabled="false"
-                android:tag="7"
                 android:text="7" />
 
             <Button
@@ -96,8 +83,6 @@
                 android:layout_height="40dp"
                 android:layout_alignStart="@+id/btn_coupon_03"
                 android:layout_below="@+id/btn_coupon_03"
-                android:enabled="false"
-                android:tag="8"
                 android:text="8" />
 
             <Button
@@ -106,8 +91,6 @@
                 android:layout_height="40dp"
                 android:layout_alignStart="@+id/btn_coupon_04"
                 android:layout_below="@+id/btn_coupon_04"
-                android:enabled="false"
-                android:tag="9"
                 android:text="9" />
 
             <Button
@@ -116,8 +99,6 @@
                 android:layout_height="40dp"
                 android:layout_alignStart="@+id/btn_coupon_05"
                 android:layout_below="@+id/btn_coupon_05"
-                android:enabled="false"
-                android:tag="10"
                 android:text="10" />
 
         </RelativeLayout>
@@ -131,8 +112,8 @@
                 android:id="@+id/btn_coupon_used_01"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/gray"
                 android:enabled="false"
-                android:tag="used1"
                 android:text="아메리카노\n\n1잔"
                 android:textSize="11sp" />
         </LinearLayout>

@@ -12,18 +12,25 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.util.ArrayList;
+
 public class Tab3Activity extends AppCompatActivity implements View.OnClickListener {
 
+    //클릭된 버튼의 순서를 알기 위해 버튼의 숫자를 저장할 변수
     private int buttonTAG;
 
-    private Button[] buttonArray = new Button[10];
+    //버튼을 배열로 생성
+    private Button[] buttonArray = new Button[11];
+
+    //DB 관련
+    private ArrayList<C20_ItemsAll> resultDB = null;  //쿼리 결과가 저정될 리스트
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab3);
 
-        //버튼 클릭 이벤트 - 버튼 호출
+        //적립 쿠폰 버튼 클릭
         buttonArray[0] = (Button) findViewById(R.id.btn_coupon_01);
         buttonArray[1] = (Button) findViewById(R.id.btn_coupon_02);
         buttonArray[2] = (Button) findViewById(R.id.btn_coupon_03);
@@ -45,6 +52,7 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
         buttonArray[17] = (Button) findViewById(R.id.btn_coupon_18);
         buttonArray[18] = (Button) findViewById(R.id.btn_coupon_19);
         buttonArray[19] = (Button) findViewById(R.id.btn_coupon_20);
+
         buttonArray[20] = (Button) findViewById(R.id.btn_coupon_21);
         buttonArray[21] = (Button) findViewById(R.id.btn_coupon_22);
         buttonArray[22] = (Button) findViewById(R.id.btn_coupon_23);
@@ -55,6 +63,7 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
         buttonArray[27] = (Button) findViewById(R.id.btn_coupon_28);
         buttonArray[28] = (Button) findViewById(R.id.btn_coupon_29);
         buttonArray[29] = (Button) findViewById(R.id.btn_coupon_30);
+
         buttonArray[30] = (Button) findViewById(R.id.btn_coupon_31);
         buttonArray[31] = (Button) findViewById(R.id.btn_coupon_32);
         buttonArray[32] = (Button) findViewById(R.id.btn_coupon_33);
@@ -65,11 +74,14 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
         buttonArray[37] = (Button) findViewById(R.id.btn_coupon_38);
         buttonArray[38] = (Button) findViewById(R.id.btn_coupon_39);
         buttonArray[39] = (Button) findViewById(R.id.btn_coupon_40);
-        buttonArray[40] = (Button) findViewById(R.id.btn_coupon_41);
-        buttonArray[41] = (Button) findViewById(R.id.btn_coupon_42);
-        buttonArray[42] = (Button) findViewById(R.id.btn_coupon_43);
-        buttonArray[43] = (Button) findViewById(R.id.btn_coupon_44);
-        buttonArray[44] = (Button) findViewById(R.id.btn_coupon_45);
+        */
+
+        /*
+        //무료 쿠폰 버튼 클릭
+        buttonArray[40] = (Button) findViewById(R.id.btn_coupon_used_01);
+        buttonArray[41] = (Button) findViewById(R.id.btn_coupon_used_02);
+        buttonArray[42] = (Button) findViewById(R.id.btn_coupon_used_03);
+        buttonArray[43] = (Button) findViewById(R.id.btn_coupon_used_04);
         */
 
         for (int i=0; i<10; i++) {
@@ -78,20 +90,60 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
 
             //버튼 클릭 이벤트 - 리스너
             buttonArray[i].setOnClickListener(this);
+        }
 
-            //쿠폰 모양 결정
-            /*
-            if (couponNo == i && flag == 0) {
+        //쿠폰의 모양을 결정하는 메소드 실행
+        reLoad();
+    }
+
+    //쿠폰 모양 결정
+    public void reLoad() {
+        // *** DB 총 수 확인 ***
+        //int count = D00_DBManager.dbManager.idCount();
+        //Log.e("확인", "FLAG 수는: " + count);
+
+        //쿼리를 실행해서 어레이리스트 resultDB 에 저장한다.
+        resultDB = D00_DBManager.dbManager.querySelect();
+        //Log.e("확인", "db: " + resultDB.get(0).getFlag());
+
+        //쿠폰 적립
+        for (int i=0; i<10; i++) {
+            //FLAG 컬럼의 값이 0인 경우에는
+            if (resultDB.get(i).getFlag().equals("0")) {
+                //쿠폰 버튼의 모양을 도장 찍기 전의 모양으로 만들고
                 buttonArray[i].setBackground(ContextCompat.getDrawable(this, R.drawable.gray));
             }
 
-            if (couponNo == i && flag == 1) {
+            //FLAG 컬럼의 값이 1인 경우에는
+            if (resultDB.get(i).getFlag().equals("1")) {
+                //쿠폰 버튼의 모양을 도장 찍은 후의 모양으로 만든다.
                 buttonArray[i].setBackground(ContextCompat.getDrawable(this, R.drawable.red));
             }
-            */
         }
 
+        //1~10번 쿠폰을 전부 찍으면 첫번째 무료 쿠폰을 활성화 시킨다.
+        if(resultDB.get(9).getFlag().equals("1")) {
+            //40번 버튼 활성화
+            //buttonArray[40].setEnabled(true);
+        }
 
+        //11~20번 쿠폰을 전부 찍으면 두번째 무료 쿠폰을 활성화 시킨다.
+        if(resultDB.get(19).getFlag().equals("1")) {
+            //41번 버튼 활성화
+            //buttonArray[41].setEnabled(true);
+        }
+
+        //21~30번 쿠폰을 전부 찍으면 세번째 무료 쿠폰을 활성화 시킨다.
+        if(resultDB.get(29).getFlag().equals("1")) {
+            //42번 버튼 활성화
+            //buttonArray[42].setEnabled(true);
+        }
+
+        //31~40번 쿠폰을 전부 찍으면 네번째 무료 쿠폰을 활성화 시킨다.
+        if(resultDB.get(39).getFlag().equals("1")) {
+            //43번 버튼 활성화
+            //buttonArray[43].setEnabled(true);
+        }
     }
 
     @Override
@@ -108,17 +160,36 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        //앞 번호의 flag 번호가 1인 경우에만 카메라 호출
-        /*
-        if (resultDB.get(position).getFlag() == 1) {
-            new IntentIntegrator(this).initiateScan();
-        } else {
-            Toast "순서대로 사용해주세요";
+        //buttonTAG 값이 0이고, flag 컬럼이 0이면 무조건 카메라 호출
+        if (buttonTAG ==0) {
+            if (resultDB.get(0).getFlag().equals("0")) {
+                //QR 코드 읽는 카메라 호출
+                new IntentIntegrator(this).initiateScan();
+            } else {
+                //flag 값이 1이면 이미 쿠폰을 찍었다는 의미이므로
+                Toast.makeText(this, "이미 적립된 쿠폰입니다.", Toast.LENGTH_SHORT).show();
+            }
         }
-        */
 
-        //QR 코드 읽는 카메라 호출
-        new IntentIntegrator(this).initiateScan();
+        //buttonTAG 값이 0이 아닌 경우에는
+        //(쿠폰을 순서대로 찍기 위해서)
+        //앞 쿠폰 번호의 flag 번호가 1이고, 현재 번호의 flag 번호가 0인 경우에만 카메라 호출
+        if (buttonTAG != 0 && buttonTAG <= 40) {
+            if (resultDB.get(buttonTAG-1).getFlag().equals("1") && resultDB.get(buttonTAG).getFlag().equals("0")) {
+                //QR 코드 읽는 카메라 호출
+                new IntentIntegrator(this).initiateScan();
+            }
+            //앞 쿠폰 번호의 flag 번호가 1이고, 현재 번호의 flag 번호가 1인 경우에는 이미 적립된 쿠폰이므로 토스트를 호출
+            else if (resultDB.get(buttonTAG-1).getFlag().equals("1") && resultDB.get(buttonTAG).getFlag().equals("1")) {
+                Toast.makeText(this, "이미 적립된 쿠폰입니다.", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "쿠폰은 순서대로 찍어주세요.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        if (buttonTAG > 40) {
+            //무료 쿠폰 사용 이벤트 적용
+        }
 
     }
 
@@ -136,54 +207,19 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
             // *** 후에 암호화 할 필요가 있음 ***
             String pw = "test1234567**";
 
-            Log.v("확인", "" + result.getContents());
+            //Log.v("확인", "" + result.getContents());
 
-            if (check.equals(pw) && buttonTAG == 0) {
-                buttonArray[0].setBackground(ContextCompat.getDrawable(this, R.drawable.red));
-                buttonArray[0].setEnabled(false);
-                buttonArray[1].setEnabled(true);
-                // *** DB의 flag 번호를 변경해 주는 명령이 필요 ***
-                int aaa = D00_DBManager.dbManager.favoriteCount();
-                Log.e("확인", "FLAG 수는: " + aaa);
-            } else if (check.equals(pw) && buttonTAG == 1) {
-                buttonArray[1].setBackground(ContextCompat.getDrawable(this, R.drawable.red));
-                buttonArray[1].setEnabled(false);
-                buttonArray[2].setEnabled(true);
-            } else if (check.equals(pw) && buttonTAG == 2) {
-                buttonArray[2].setBackground(ContextCompat.getDrawable(this, R.drawable.red));
-                buttonArray[2].setEnabled(false);
-                buttonArray[3].setEnabled(true);
-            } else if (check.equals(pw) && buttonTAG == 3) {
-                buttonArray[3].setBackground(ContextCompat.getDrawable(this, R.drawable.red));
-                buttonArray[3].setEnabled(false);
-                buttonArray[4].setEnabled(true);
-            } else if (check.equals(pw) && buttonTAG == 4) {
-                buttonArray[4].setBackground(ContextCompat.getDrawable(this, R.drawable.red));
-                buttonArray[4].setEnabled(false);
-                buttonArray[5].setEnabled(true);
-            } else if (check.equals(pw) && buttonTAG == 5) {
-                buttonArray[5].setBackground(ContextCompat.getDrawable(this, R.drawable.red));
-                buttonArray[5].setEnabled(false);
-                buttonArray[6].setEnabled(true);
-            } else if (check.equals(pw) && buttonTAG == 6) {
-                buttonArray[6].setBackground(ContextCompat.getDrawable(this, R.drawable.red));
-                buttonArray[6].setEnabled(false);
-                buttonArray[7].setEnabled(true);
-            } else if (check.equals(pw) && buttonTAG == 7) {
-                buttonArray[7].setBackground(ContextCompat.getDrawable(this, R.drawable.red));
-                buttonArray[7].setEnabled(false);
-                buttonArray[8].setEnabled(true);
-            } else if (check.equals(pw) && buttonTAG == 8) {
-                buttonArray[8].setBackground(ContextCompat.getDrawable(this, R.drawable.red));
-                buttonArray[8].setEnabled(false);
-                buttonArray[9].setEnabled(true);
-            } else if (check.equals(pw) && buttonTAG == 9) {
-                buttonArray[9].setBackground(ContextCompat.getDrawable(this, R.drawable.red));
-                buttonArray[9].setEnabled(false);
-                //buttonArray[10].setEnabled(true);
+            //QR 코드로 찍은 check 변수의 암호와 내가 지정한 pw 변수의 암호가 동일하다면
+            if (check.equals(pw)){
+                //buttonTAG 값을 기준으로 DB의 flag 컬럼을 1로 변경하는 쿼리를 실행한다.
+                //참고로 buttonTAG 값은 0부터 시작하고, DB의 cId 컬럼 값은 1부터 시작하므로 buttonTAG+1을 해주어야 한다.
+                D00_DBManager.dbManager.flagUpdate(buttonTAG+1);
             } else {
                 Toast.makeText(this, "잘못된 QR 코드입니다.", Toast.LENGTH_SHORT).show();
             }
+
+            //쿠폰 버튼의 모양을 변경하기 위해 reLoad() 함수 실행
+            reLoad();
 
         } catch(Exception e) {
             e.printStackTrace();

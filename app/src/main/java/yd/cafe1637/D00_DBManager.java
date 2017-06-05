@@ -74,10 +74,57 @@ class D00_DBManager extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DELETE FROM CAFE1637");
+        db.execSQL("DELETE FROM CAFE1637;");
     }
 
-    int favoriteCount() {
+    //DB 전체 select 쿼리 실행
+    ArrayList<C20_ItemsAll> querySelect() {
+        //쿼리 실행 후 쿼리 값을 각 각의 컬럼 별로 나누기 위해 변수 선언
+        String cId = "";     //ID
+        String flag = "";       //글의 내용
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor;
+
+        //쿼리 실행문
+        cursor = db.rawQuery("select ID, FLAG from CAFE1637", null);
+
+        //DB 값들이 최종적으로 저장될 리스트
+        ArrayList<C20_ItemsAll> resultDB = new ArrayList<>();
+
+        //나중에 데이터를 나누기 위해 기호(/)를 추가해서 각 변수에 담는다.
+        while (cursor.moveToNext()) {
+            cId += cursor.getString(0) + "/";
+            flag += cursor.getString(1) + "/";
+        }
+
+        //하나의 변수에 DB의 값이 전부 들어가 있기 때문에 기호 '/' 를 기준으로 나누어 준다.
+        String[] cIdSplit = cId.split("/");
+        String[] flagSplit = flag.split("/");
+
+        //배열의 크기만큼 반복을 돌리기 위해 글의 내용을 나눈 cIdSplit 길이의 값을 변수 k에 저장
+        int k = cIdSplit.length;
+        for (int i=0; i<k; i++){
+            //cId, flag 컬럼 값을 C20_ItemsAll 에 저장한다.
+            C20_ItemsAll item = new C20_ItemsAll(cIdSplit[i], flagSplit[i]);
+
+            //C20_ItemsAll 값을 최종적으로 리스트(resultDB)에 담는다.
+            resultDB.add(item);
+        }
+        return resultDB;
+    }
+
+    //flag 컬럼 값 없데이트
+    void flagUpdate(int cId) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("update CAFE1637 set flag = " + 1 + " where ID = " + cId + ";");
+
+        //DB 닫기 (꼭 닫아 줘야 함)
+        db.close();
+    }
+
+    //총 수 구하기
+    int idCount() {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("select count(*) from CAFE1637 where FLAG = 1", null);
         int count = 0;
