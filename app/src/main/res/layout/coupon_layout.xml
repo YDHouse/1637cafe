@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp">
+
+            <LinearLayout
+                android:id="@+id/layout_coupon_01"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:orientation="horizontal" />
+
+            <LinearLayout
+                android:id="@+id/layout_coupon_02"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="11dp"
+                android:layout_toEndOf="@+id/layout_coupon_01"
+                android:orientation="horizontal" />
+
+            <LinearLayout
+                android:id="@+id/layout_coupon_03"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="11dp"
+                android:layout_toEndOf="@+id/layout_coupon_02"
+                android:orientation="horizontal" />
+
+            <LinearLayout
+                android:id="@+id/layout_coupon_04"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="11dp"
+                android:layout_toEndOf="@+id/layout_coupon_03"
+                android:orientation="horizontal" />
+
+            <LinearLayout
+                android:id="@+id/layout_coupon_05"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="11dp"
+                android:layout_toEndOf="@+id/layout_coupon_04"
+                android:orientation="horizontal" />
+
+            <LinearLayout
+                android:id="@+id/layout_coupon_06"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/layout_coupon_05"
+                android:orientation="horizontal" />
+
+            <LinearLayout
+                android:id="@+id/layout_coupon_07"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignStart="@+id/layout_coupon_02"
+                android:layout_below="@+id/layout_coupon_02"
+                android:orientation="horizontal" />
+
+            <LinearLayout
+                android:id="@+id/layout_coupon_08"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignStart="@+id/layout_coupon_03"
+                android:layout_below="@+id/layout_coupon_03"
+                android:orientation="horizontal" />
+
+            <LinearLayout
+                android:id="@+id/layout_coupon_09"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignStart="@+id/layout_coupon_04"
+                android:layout_below="@+id/layout_coupon_04"
+                android:orientation="horizontal" />
+
+            <LinearLayout
+                android:id="@+id/layout_coupon_10"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignStart="@+id/layout_coupon_05"
+                android:layout_below="@+id/layout_coupon_05"
+                android:orientation="horizontal" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_used_coupon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+
+    </LinearLayout>
+
+</LinearLayout>

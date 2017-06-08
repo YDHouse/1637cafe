@@ -1,14 +1,19 @@
 package yd.cafe1637;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+//QR 코드 관련
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -19,8 +24,14 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
     //클릭된 버튼의 순서를 알기 위해 버튼의 숫자를 저장할 변수
     private int buttonTAG;
 
-    //버튼을 배열로 생성
+    //LinearLayout 배열로 생성
+    //private LinearLayout[] ll = new LinearLayout[11];
     private Button[] buttonArray = new Button[11];
+
+    private View view;
+    private LinearLayout[] ll = new LinearLayout[11];
+    private int j = 11;
+    private int k = 0;
 
     //DB 관련
     private ArrayList<C20_ItemsAll> resultDB = null;  //쿼리 결과가 저정될 리스트
@@ -30,70 +41,60 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab3);
 
-        //적립 쿠폰 버튼 클릭
-        buttonArray[0] = (Button) findViewById(R.id.btn_coupon_01);
-        buttonArray[1] = (Button) findViewById(R.id.btn_coupon_02);
-        buttonArray[2] = (Button) findViewById(R.id.btn_coupon_03);
-        buttonArray[3] = (Button) findViewById(R.id.btn_coupon_04);
-        buttonArray[4] = (Button) findViewById(R.id.btn_coupon_05);
-        buttonArray[5] = (Button) findViewById(R.id.btn_coupon_06);
-        buttonArray[6] = (Button) findViewById(R.id.btn_coupon_07);
-        buttonArray[7] = (Button) findViewById(R.id.btn_coupon_08);
-        buttonArray[8] = (Button) findViewById(R.id.btn_coupon_09);
-        buttonArray[9] = (Button) findViewById(R.id.btn_coupon_10);
-        /*
-        buttonArray[10] = (Button) findViewById(R.id.btn_coupon_11);
-        buttonArray[11] = (Button) findViewById(R.id.btn_coupon_12);
-        buttonArray[12] = (Button) findViewById(R.id.btn_coupon_14);
-        buttonArray[13] = (Button) findViewById(R.id.btn_coupon_14);
-        buttonArray[14] = (Button) findViewById(R.id.btn_coupon_15);
-        buttonArray[15] = (Button) findViewById(R.id.btn_coupon_16);
-        buttonArray[16] = (Button) findViewById(R.id.btn_coupon_17);
-        buttonArray[17] = (Button) findViewById(R.id.btn_coupon_18);
-        buttonArray[18] = (Button) findViewById(R.id.btn_coupon_19);
-        buttonArray[19] = (Button) findViewById(R.id.btn_coupon_20);
+        Button add_coupon = (Button) findViewById(R.id.btn_add_coupon);
+        add_coupon.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //LinearLayout linearLayout = (LinearLayout) findViewById(R.id.coupon_area);
+                //LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+                //view = inflater.inflate(R.layout.coupon_layout, linearLayout);
+                newCouponArea();
+            }
+        });
 
-        buttonArray[20] = (Button) findViewById(R.id.btn_coupon_21);
-        buttonArray[21] = (Button) findViewById(R.id.btn_coupon_22);
-        buttonArray[22] = (Button) findViewById(R.id.btn_coupon_23);
-        buttonArray[23] = (Button) findViewById(R.id.btn_coupon_24);
-        buttonArray[24] = (Button) findViewById(R.id.btn_coupon_25);
-        buttonArray[25] = (Button) findViewById(R.id.btn_coupon_26);
-        buttonArray[26] = (Button) findViewById(R.id.btn_coupon_27);
-        buttonArray[27] = (Button) findViewById(R.id.btn_coupon_28);
-        buttonArray[28] = (Button) findViewById(R.id.btn_coupon_29);
-        buttonArray[29] = (Button) findViewById(R.id.btn_coupon_30);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.coupon_area);
+        LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        view = inflater.inflate(R.layout.coupon_layout, linearLayout);
 
-        buttonArray[30] = (Button) findViewById(R.id.btn_coupon_31);
-        buttonArray[31] = (Button) findViewById(R.id.btn_coupon_32);
-        buttonArray[32] = (Button) findViewById(R.id.btn_coupon_33);
-        buttonArray[33] = (Button) findViewById(R.id.btn_coupon_34);
-        buttonArray[34] = (Button) findViewById(R.id.btn_coupon_35);
-        buttonArray[35] = (Button) findViewById(R.id.btn_coupon_36);
-        buttonArray[36] = (Button) findViewById(R.id.btn_coupon_37);
-        buttonArray[37] = (Button) findViewById(R.id.btn_coupon_38);
-        buttonArray[38] = (Button) findViewById(R.id.btn_coupon_39);
-        buttonArray[39] = (Button) findViewById(R.id.btn_coupon_40);
-        */
+        //인플레이트 시키는 레이아웃(xml 파일)의 LinearLayout 을 호출한다.
+        ll[0] = (LinearLayout) view.findViewById(R.id.layout_coupon_01);
+        ll[1] = (LinearLayout) view.findViewById(R.id.layout_coupon_02);
+        ll[2] = (LinearLayout) view.findViewById(R.id.layout_coupon_03);
+        ll[3] = (LinearLayout) view.findViewById(R.id.layout_coupon_04);
+        ll[4] = (LinearLayout) view.findViewById(R.id.layout_coupon_05);
+        ll[5] = (LinearLayout) view.findViewById(R.id.layout_coupon_06);
+        ll[6] = (LinearLayout) view.findViewById(R.id.layout_coupon_07);
+        ll[7] = (LinearLayout) view.findViewById(R.id.layout_coupon_08);
+        ll[8] = (LinearLayout) view.findViewById(R.id.layout_coupon_09);
+        ll[9] = (LinearLayout) view.findViewById(R.id.layout_coupon_10);
+        ll[10] = (LinearLayout) view.findViewById(R.id.layout_used_coupon);
 
-        /*
-        //무료 쿠폰 버튼 클릭
-        buttonArray[40] = (Button) findViewById(R.id.btn_coupon_used_01);
-        buttonArray[41] = (Button) findViewById(R.id.btn_coupon_used_02);
-        buttonArray[42] = (Button) findViewById(R.id.btn_coupon_used_03);
-        buttonArray[43] = (Button) findViewById(R.id.btn_coupon_used_04);
-        */
+        newCouponArea();
+    }
 
-        for (int i=0; i<10; i++) {
-            //각 버튼에 태그 지정
-            buttonArray[i].setTag(i);
+    public void newCouponArea() {
+        int llCount = 0;
+        for (int i=k; i <j; i++) {
+            Button btn = new Button(this);
+            btn.setId(i);
+            if (i == j - 1) {
+                btn.setText("FREE\n\n아메리카노 1잔");
+                btn.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
+            } else {
+                int result = i + 1;
+                btn.setText("" + result);
+                btn.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
+            }
+            btn.setTag(i);
+            ll[llCount].addView(btn);
+            Log.e("확인", "버튼 ID 는 = " + llCount);
+            llCount++;
+            btn.setOnClickListener(this);
 
-            //버튼 클릭 이벤트 - 리스너
-            buttonArray[i].setOnClickListener(this);
+            //Log.e("확인", "버튼 ID 는 = " + btn.getId());
         }
-
-        //쿠폰의 모양을 결정하는 메소드 실행
-        reLoad();
+        k = j;
+        j = j + 11;
     }
 
     //쿠폰 모양 결정

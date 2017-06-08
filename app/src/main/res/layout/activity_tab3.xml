@@ -1,123 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginRight="10dp">
-
-            <Button
-                android:id="@+id/btn_coupon_01"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:text="1" />
-
-            <Button
-                android:id="@+id/btn_coupon_02"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="11dp"
-                android:layout_toEndOf="@+id/btn_coupon_01"
-                android:text="2" />
-
-            <Button
-                android:id="@+id/btn_coupon_03"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="11dp"
-                android:layout_toEndOf="@+id/btn_coupon_02"
-                android:text="3" />
-
-            <Button
-                android:id="@+id/btn_coupon_04"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="11dp"
-                android:layout_toEndOf="@+id/btn_coupon_03"
-                android:text="4" />
-
-            <Button
-                android:id="@+id/btn_coupon_05"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="11dp"
-                android:layout_toEndOf="@+id/btn_coupon_04"
-                android:text="5" />
-
-            <Button
-                android:id="@+id/btn_coupon_06"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/btn_coupon_01"
-                android:text="6" />
-
-            <Button
-                android:id="@+id/btn_coupon_07"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignStart="@+id/btn_coupon_02"
-                android:layout_below="@+id/btn_coupon_02"
-                android:text="7" />
-
-            <Button
-                android:id="@+id/btn_coupon_08"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignStart="@+id/btn_coupon_03"
-                android:layout_below="@+id/btn_coupon_03"
-                android:text="8" />
-
-            <Button
-                android:id="@+id/btn_coupon_09"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignStart="@+id/btn_coupon_04"
-                android:layout_below="@+id/btn_coupon_04"
-                android:text="9" />
-
-            <Button
-                android:id="@+id/btn_coupon_10"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignStart="@+id/btn_coupon_05"
-                android:layout_below="@+id/btn_coupon_05"
-                android:text="10" />
-
-        </RelativeLayout>
+        android:orientation="vertical" >
 
         <LinearLayout
+            android:id="@+id/coupon_area"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
 
-            <Button
-                android:id="@+id/btn_coupon_used_01"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/gray"
-                android:enabled="false"
-                android:text="아메리카노\n\n1잔"
-                android:textSize="11sp" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/btn_add_coupon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="쿠폰 추가" />
 
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>
