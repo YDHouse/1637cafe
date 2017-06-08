@@ -28,8 +28,10 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
     //private LinearLayout[] ll = new LinearLayout[11];
     private Button[] buttonArray = new Button[11];
 
-    private View view;
     private LinearLayout[] ll = new LinearLayout[11];
+    private View view;
+    private LinearLayout linearLayout;
+    private LayoutInflater inflater;
     private int j = 11;
     private int k = 0;
 
@@ -41,19 +43,8 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab3);
 
-        Button add_coupon = (Button) findViewById(R.id.btn_add_coupon);
-        add_coupon.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                //LinearLayout linearLayout = (LinearLayout) findViewById(R.id.coupon_area);
-                //LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-                //view = inflater.inflate(R.layout.coupon_layout, linearLayout);
-                newCouponArea();
-            }
-        });
-
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.coupon_area);
-        LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        linearLayout = (LinearLayout) findViewById(R.id.coupon_area);
+        inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
         view = inflater.inflate(R.layout.coupon_layout, linearLayout);
 
         //인플레이트 시키는 레이아웃(xml 파일)의 LinearLayout 을 호출한다.
@@ -70,6 +61,15 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
         ll[10] = (LinearLayout) view.findViewById(R.id.layout_used_coupon);
 
         newCouponArea();
+
+        Button add_coupon = (Button) findViewById(R.id.btn_add_coupon);
+        add_coupon.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                newCouponArea();
+                inflater.inflate(R.layout.coupon_layout, linearLayout);
+            }
+        });
     }
 
     public void newCouponArea() {
@@ -87,11 +87,10 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
             }
             btn.setTag(i);
             ll[llCount].addView(btn);
-            Log.e("확인", "버튼 ID 는 = " + llCount);
             llCount++;
             btn.setOnClickListener(this);
 
-            //Log.e("확인", "버튼 ID 는 = " + btn.getId());
+            Log.e("확인", "버튼 ID 는 = " + btn.getId());
         }
         k = j;
         j = j + 11;
