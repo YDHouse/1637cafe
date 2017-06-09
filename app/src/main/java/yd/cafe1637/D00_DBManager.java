@@ -69,7 +69,6 @@ class D00_DBManager extends SQLiteOpenHelper{
         db.execSQL("INSERT INTO CAFE1637 VALUES (null, 0);");
         db.execSQL("INSERT INTO CAFE1637 VALUES (null, 0);");
         db.execSQL("INSERT INTO CAFE1637 VALUES (null, 0);");
-        db.execSQL("INSERT INTO CAFE1637 VALUES (null, 0);");
     }
 
     @Override
