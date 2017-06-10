@@ -25,6 +25,7 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
     private int buttonTAG;      //클릭된 버튼의 순서를 알기 위해 버튼의 숫자를 저장할 변수
     private int j = 11;         //버튼 생성 시 반복문의 초기 반복 횟수
     private int k = 0;          //버튼 생성 시 반복문의 초기 i의 값을 지정
+    private LinearLayout linearLayout;  //동적으로 생성된 쿠폰 버튼들이 실제로 삽입 될 레이아웃 호출
 
     //DB 관련
     private ArrayList<C20_ItemsAll> resultDB = null;  //쿼리 결과가 저정될 리스트
@@ -34,25 +35,43 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab3);
 
-        //쿼리를 실행해서 resultDB 에 저장한다.
+        //DB와 관련된 값을 구하기 위한 쿼리들을 실행한다.
+        getDB();
+    }
+
+
+
+    //DB로 부터 필요한 값 가져오기
+    public void getDB() {
+        //쿼리를 실행해서 resultDB 에 couponId 별 flag 의 최신 상태를 저장한다.
         resultDB = D00_DBManager.dbManager.querySelect();
 
-        //쿠폰 생성 메소드 실행
-        //쿠폰 4장을 생성하기 위해 4번 실행한다.
-        for (int i=0; i<4; i++) {
+        //DB의 총 수를 구한다.
+        int couponCount = D00_DBManager.dbManager.couponCount();
+
+        //나누기 11을 하는 이유는 쿠폰 그룹에 생성되는 버튼의 수가 11개 이기때문이다.
+        int loopCount = couponCount / 11;
+
+        //loopCount 값을 기준으로 쿠폰 생성 메소드 실행
+        for (int i = 0; i< loopCount; i++) {
             newCouponArea();
         }
 
-        //쿠폰 생성 버튼 클릭 이벤트
-        //나중에 40번째 쿠폰이 적립되었을 때 자동으로 신규 쿠폰을 생성하는 방식으로 변경 예정
-        Button add_coupon = (Button) findViewById(R.id.btn_add_coupon);
-        add_coupon.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                newCouponArea();
-            }
-        });
+        /*
+         *** 새로운 쿠폰 생성을 위한 조건문 ***
+         * 마지막 쿠폰에 도장이 찍히면 새로운 쿠폰 영역을 생성한다.
+         * couponCount 값에 빼기 1을 하는 이유는 couponCount 값은 무료 쿠폰을 지정하고 있기 때문이다.
+        */
+        if (resultDB.get(couponCount-2).getFlag().equals("1")) {
+            //DB에 새로운 값들을 insert 해야 한다.
+            D00_DBManager.dbManager.couponInsert();
+
+            //getDB() 메소드를 다시 실행해서 버튼을 생성한다.
+            getDB();
+        }
     }
+
+
 
     //쿠폰 생성 하기
     public void newCouponArea() {
@@ -99,6 +118,17 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
                 btn.setText("" + textNo++);     //초기 textNo 1을 입력하고 ++ 시킨다.
                 btn.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);   //글자 크기는 10
             }
+
+            /*
+             * 오늘의 할 일 - 버튼의 활성 비활성 결정하기
+             * 쿠폰을 순서대로 찍기 위한 방법이 무료 쿠폰이 사이에 껴있는 경우 먹힐지 않음
+            if (k == 0) {
+                btn.setEnabled(true);
+            } else {
+                btn.setEnabled(false);
+            }
+            */
+
             //LinearLayout 각 방에 생성한 버튼을 추가
             ll[llCount++].addView(btn);
 
@@ -129,7 +159,7 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
         j = j + 11;
 
         //지금까지 만들어진 버튼이 실제로 삽입 될 레이아웃 호출
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.coupon_area);
+        linearLayout = (LinearLayout) findViewById(R.id.coupon_area);
 
         //호출한 레이아웃에 addView 한다.
         linearLayout.addView(view);
@@ -141,7 +171,7 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         //클릭된 버튼의 태그 담기
         buttonTAG = (Integer) v.getTag();
-        //Log.e("확인", "버튼 태그: " + buttonTAG);
+        Log.e("확인", "버튼 태그: " + buttonTAG);
 
         //buttonTAG 값이 0이고, flag 컬럼이 0이면 무조건 카메라 호출
         if (buttonTAG == 0) {
@@ -155,9 +185,9 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-        /** *********************************
-         ** 쿠폰을 순서대로 찍기 위한 방법 **
-         ** *********************************/
+        /* ************************************
+         *** 쿠폰을 순서대로 찍기 위한 방법 ***
+         ************************************ */
         //buttonTAG 값이 0이 아니고
         if (buttonTAG != 0) {
             //앞 쿠폰 번호의 flag 번호가 1이고, 현재 번호의 flag 번호가 0인 경우에만 카메라 호출
@@ -171,39 +201,6 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
             } else {
                 Toast.makeText(this, "쿠폰은 순서대로 찍어주세요.", Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-
-
-    //쿠폰 모양 결정
-    public void reLoad() {
-        //쿼리를 실행해서 어레이리스트 resultDB 에 저장한다.
-        resultDB = D00_DBManager.dbManager.querySelect();
-        Log.e("확인", "버튼번호: " + buttonTAG + " / 플래그 값: " + resultDB.get(buttonTAG).getFlag());
-
-        //1~10번 쿠폰을 전부 찍으면 첫번째 무료 쿠폰을 활성화 시킨다.
-        if(resultDB.get(9).getFlag().equals("1")) {
-            //40번 버튼 활성화
-            //buttonArray[40].setEnabled(true);
-        }
-
-        //11~20번 쿠폰을 전부 찍으면 두번째 무료 쿠폰을 활성화 시킨다.
-        if(resultDB.get(19).getFlag().equals("1")) {
-            //41번 버튼 활성화
-            //buttonArray[41].setEnabled(true);
-        }
-
-        //21~30번 쿠폰을 전부 찍으면 세번째 무료 쿠폰을 활성화 시킨다.
-        if(resultDB.get(29).getFlag().equals("1")) {
-            //42번 버튼 활성화
-            //buttonArray[42].setEnabled(true);
-        }
-
-        //31~40번 쿠폰을 전부 찍으면 네번째 무료 쿠폰을 활성화 시킨다.
-        if(resultDB.get(39).getFlag().equals("1")) {
-            //43번 버튼 활성화
-            //buttonArray[43].setEnabled(true);
         }
     }
 
@@ -230,8 +227,13 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
                 //참고로 buttonTAG 값은 0부터 시작하고, DB의 cId 컬럼 값은 1부터 시작하므로 buttonTAG+1을 해주어야 한다.
                 D00_DBManager.dbManager.flagUpdate(buttonTAG+1);
 
-                //쿠폰 버튼의 모양을 변경하기 위해 reLoad() 함수 실행
-                reLoad();
+                //쿠폰에 어떤 변화가 생기는 경우
+                //DB로 부터 값을 가져와서 무조건 처음부터 다시 버튼을 생성해야 쿠폰 버튼의 최신 모양이 반영된다.
+                //J와 K의 값을 초기 값으로 변경하면 버튼을 처음부터 생성한다.
+                j = 11;
+                k = 0;
+                linearLayout.removeAllViews();
+                getDB();
             } else {
                 Toast.makeText(this, "잘못된 QR 코드입니다.", Toast.LENGTH_SHORT).show();
             }

@@ -13,7 +13,7 @@ class D00_DBManager extends SQLiteOpenHelper{
     static D00_DBManager dbManager;
 
     D00_DBManager(Context context) {
-        super(context, "Cafe1637.db", null, 1);
+        super(context, "Cafe1637.db", null, 5);
 
         //onCreate() 메소드가 실행되면서 (혹은 생성자로 클래스를 호출할 때)
         //현 클래스가 스태틱으로 메모리에 등록된다.
@@ -73,7 +73,53 @@ class D00_DBManager extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DELETE FROM CAFE1637;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 1;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 2;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 3;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 4;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 5;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 6;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 7;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 8;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 9;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 10;");
+        db.execSQL("update CAFE1637 set flag = 0 where id = 11;");
+
+        db.execSQL("update CAFE1637 set flag = 1 where id = 12;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 13;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 14;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 15;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 16;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 17;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 18;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 19;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 20;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 21;");
+        db.execSQL("update CAFE1637 set flag = 0 where id = 22;");
+
+        db.execSQL("update CAFE1637 set flag = 1 where id = 23;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 24;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 25;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 26;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 27;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 28;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 29;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 30;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 31;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 32;");
+        db.execSQL("update CAFE1637 set flag = 0 where id = 33;");
+
+        db.execSQL("update CAFE1637 set flag = 1 where id = 34;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 35;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 36;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 37;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 38;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 39;");
+        db.execSQL("update CAFE1637 set flag = 1 where id = 40;");
+        db.execSQL("update CAFE1637 set flag = 0 where id = 41;");
+        db.execSQL("update CAFE1637 set flag = 0 where id = 42;");
+        db.execSQL("update CAFE1637 set flag = 0 where id = 43;");
+        db.execSQL("update CAFE1637 set flag = 0 where id = 44;");
     }
 
     //DB 전체 select 쿼리 실행
@@ -97,6 +143,8 @@ class D00_DBManager extends SQLiteOpenHelper{
             flag += cursor.getString(1) + "/";
         }
 
+        cursor.close();
+
         //하나의 변수에 DB의 값이 전부 들어가 있기 때문에 기호 '/' 를 기준으로 나누어 준다.
         String[] cIdSplit = cId.split("/");
         String[] flagSplit = flag.split("/");
@@ -113,6 +161,21 @@ class D00_DBManager extends SQLiteOpenHelper{
         return resultDB;
     }
 
+    //총 수 구하기
+    int couponCount() {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("select count(*) from CAFE1637", null);
+
+        int count = 0;
+        while (cursor.moveToNext()) {
+            count = cursor.getInt(0);
+        }
+
+        cursor.close();
+
+        return count;
+    }
+
     //flag 컬럼 값 없데이트
     void flagUpdate(int cId) {
         SQLiteDatabase db = getWritableDatabase();
@@ -122,14 +185,26 @@ class D00_DBManager extends SQLiteOpenHelper{
         db.close();
     }
 
-    //총 수 구하기
-    int idCount() {
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("select count(*) from CAFE1637 where FLAG = 1", null);
-        int count = 0;
-        while (cursor.moveToNext()) {
-            count = cursor.getInt(0);
-        }
-        return count;
+    //flag 컬럼 값 없데이트
+    void couponInsert() {
+        SQLiteDatabase db = getWritableDatabase();
+
+        //신규 쿠폰 버튼을 생성하기 위해 insert 실행을 11번 한다.
+        db.execSQL("INSERT INTO CAFE1637 VALUES (null, 0);");
+        db.execSQL("INSERT INTO CAFE1637 VALUES (null, 0);");
+        db.execSQL("INSERT INTO CAFE1637 VALUES (null, 0);");
+        db.execSQL("INSERT INTO CAFE1637 VALUES (null, 0);");
+        db.execSQL("INSERT INTO CAFE1637 VALUES (null, 0);");
+        db.execSQL("INSERT INTO CAFE1637 VALUES (null, 0);");
+        db.execSQL("INSERT INTO CAFE1637 VALUES (null, 0);");
+        db.execSQL("INSERT INTO CAFE1637 VALUES (null, 0);");
+        db.execSQL("INSERT INTO CAFE1637 VALUES (null, 0);");
+        db.execSQL("INSERT INTO CAFE1637 VALUES (null, 0);");
+        db.execSQL("INSERT INTO CAFE1637 VALUES (null, 0);");
+
+        //DB 닫기 (꼭 닫아 줘야 함)
+        db.close();
     }
+
+
 }
