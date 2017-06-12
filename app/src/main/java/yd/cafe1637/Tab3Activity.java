@@ -22,9 +22,15 @@ import java.util.ArrayList;
 public class Tab3Activity extends AppCompatActivity implements View.OnClickListener {
 
     //버튼 관련
-    private int buttonTAG;      //클릭된 버튼의 순서를 알기 위해 버튼의 숫자를 저장할 변수
-    private int j = 11;         //버튼 생성 시 반복문의 초기 반복 횟수
-    private int k = 0;          //버튼 생성 시 반복문의 초기 i의 값을 지정
+    private String buttonTAG;           //클릭된 버튼의 종류를 알기 위한 변수 (FREE: 무료쿠폰 / NORMAL: 노말)
+    private int buttonID;               //클릭된 버튼의 순서를 알기 위해 버튼의 숫자를 저장할 변수
+    private int j = 11;                 //버튼 생성 시 반복문의 초기 반복 횟수
+    private int k = 0;                  //버튼 생성 시 반복문의 초기 i의 값을 지정
+
+    private int getCouponId = 0;        //쿠폰 버튼의 활성화, 비활성화를 결정짓기 위한 변수
+    private int flagCount = 0;          //DB의 flag 값이 1인 컬럼의 총수를 나누기 10한 값
+    private int freeButtonActivity = 1; //무료사용쿠폰 활성 여부를 결정하는 반복문의 초기 시작 값
+
     private LinearLayout linearLayout;  //동적으로 생성된 쿠폰 버튼들이 실제로 삽입 될 레이아웃 호출
 
     //DB 관련
@@ -46,11 +52,28 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
         //쿼리를 실행해서 resultDB 에 couponId 별 flag 의 최신 상태를 저장한다.
         resultDB = D00_DBManager.dbManager.querySelect();
 
-        //DB의 총 수를 구한다.
+        //DB 컬럼의 총 수
         int couponCount = D00_DBManager.dbManager.couponCount();
-
         //나누기 11을 하는 이유는 쿠폰 그룹에 생성되는 버튼의 수가 11개 이기때문이다.
         int loopCount = couponCount / 11;
+
+        //DB의 flag 값이 1인 컬럼의 총 수
+        int dbFlagCount = D00_DBManager.dbManager.flagCount();
+        flagCount = dbFlagCount / 10;
+
+        /*
+         * ***** 쿠폰 버튼의 활성화, 비활성화를 결정짓기 위한 작업 *****
+        */
+        //DB 총수가 들어있는 couponCount 값을 기준으로
+        for (int i=0; i<couponCount; i++) {
+            //플래그가 0이 나올 때 까지 반복을 돌린다.
+            if (resultDB.get(i).getFlag().equals("0")) {
+                //플래그가 0이 나오면 couponID를 저장
+                getCouponId = Integer.parseInt(resultDB.get(i).getcId());
+                //첫번째 플래그 값이 0인 첫번째 couponID를 찾으면 그 다음은 필요없기 때문에 반복 정지
+                break;
+            }
+        }
 
         //loopCount 값을 기준으로 쿠폰 생성 메소드 실행
         for (int i = 0; i< loopCount; i++) {
@@ -58,14 +81,15 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
         }
 
         /*
-         *** 새로운 쿠폰 생성을 위한 조건문 ***
-         * 마지막 쿠폰에 도장이 찍히면 새로운 쿠폰 영역을 생성한다.
-         * couponCount 값에 빼기 1을 하는 이유는 couponCount 값은 무료 쿠폰을 지정하고 있기 때문이다.
+         * ***** 새로운 쿠폰 생성을 위한 조건문 *****
+         * 초기 생성한 40개의 쿠폰 중에서 마지막 쿠폰에 도장이 찍히면 새로운 쿠폰 영역을 생성한다.
+         * 빼기 2를 하는 이유는
+         *   1) 버튼의 시작 값은 0이고, DB의 쿠폰 ID는 1부터 시작
+         *   2) couponCount 값은 일반쿠폰과 무료사용쿠폰 모두를 포함하고 있기 때문에 빼기 2를 해야 적립 쿠폰을 지정할 수 있다.
         */
         if (resultDB.get(couponCount-2).getFlag().equals("1")) {
             //DB에 새로운 값들을 insert 해야 한다.
             D00_DBManager.dbManager.couponInsert();
-
             //getDB() 메소드를 다시 실행해서 버튼을 생성한다.
             getDB();
         }
@@ -92,7 +116,7 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
         ll[7] = (LinearLayout) view.findViewById(R.id.layout_coupon_08);    //8번 버튼이 들어갈 자리
         ll[8] = (LinearLayout) view.findViewById(R.id.layout_coupon_09);    //9번 버튼이 들어갈 자리
         ll[9] = (LinearLayout) view.findViewById(R.id.layout_coupon_10);    //10번 버튼이 들어갈 자리
-        ll[10] = (LinearLayout) view.findViewById(R.id.layout_used_coupon);    //무료 쿠폰 버튼이 들어갈 자리
+        ll[10] = (LinearLayout) view.findViewById(R.id.layout_used_coupon); //무료 쿠폰 버튼이 들어갈 자리
 
         int llCount = 0;    //LinearLayout[] 배열의 방 번호
         int textNo = 1;     //쿠폰 버튼에 숫자 1~10을 기입하기 위한 넘버링
@@ -103,31 +127,20 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
             //생성한 버튼에 id 입력
             btn.setId(i);
 
-            //생성한 버튼에 tag 입력
-            btn.setTag(i);
-
             //생성한 버튼에 text 입력
             if (i == j - 1) {
                 /* 예를 들어 초기 j 값이 11일 경우에 빼기 1을 하면 10이 되고,
                  * i의 값이 빼기 1한 j의 값과 동일해 지면,
                  * 마지막 버튼을 생성하는 것이 되므로,
                  * 마지막 버튼에는 무료 쿠폰이 기입되어야 하므로 setText 내용이 달라진다. */
+                btn.setTag("FREE");         //생성한 버튼에 tag 입력
                 btn.setText("FREE\n\n아메리카노\n1잔");
                 btn.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);   //글자 크기는 12
             } else {
-                btn.setText("" + textNo++);     //초기 textNo 1을 입력하고 ++ 시킨다.
+                btn.setTag("NORMAL");       //생성한 버튼에 tag 입력
+                btn.setText("" + textNo++); //초기 textNo 1을 입력하고 ++ 시킨다.
                 btn.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);   //글자 크기는 10
             }
-
-            /*
-             * 오늘의 할 일 - 버튼의 활성 비활성 결정하기
-             * 쿠폰을 순서대로 찍기 위한 방법이 무료 쿠폰이 사이에 껴있는 경우 먹힐지 않음
-            if (k == 0) {
-                btn.setEnabled(true);
-            } else {
-                btn.setEnabled(false);
-            }
-            */
 
             //LinearLayout 각 방에 생성한 버튼을 추가
             ll[llCount++].addView(btn);
@@ -136,16 +149,46 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
             btn.setOnClickListener(this);
 
             //쿠폰의 모양을 결정하기 위해서
-            //FLAG 컬럼의 값이 0인 경우
+            //FLAG 컬럼의 값이 0 - 쿠폰 버튼이 아직 적립이 되지 않은 경우
             if (resultDB.get(i).getFlag().equals("0")) {
                 //쿠폰 버튼의 모양을 도장 찍기 전의 모양으로 만들고
                 btn.setBackground(ContextCompat.getDrawable(this, R.drawable.gray));
+                //모든 쿠폰 버튼을 비활성화 시킨다.
+                btn.setEnabled(false);
+
+                //단, getCouponId 값에서 빼기 1을 한 버튼만 활성화 시킨다.
+                // (빼기 1을 하는 이유는 버튼의 시작 값은 0이고, DB의 쿠폰 ID는 1부터 시작하기 때문)
+                if (i == getCouponId - 1) {
+                    btn.setEnabled(true);
+                }
             }
 
-            //FLAG 컬럼의 값이 1인 경우
+            //FLAG 컬럼의 값이 1 - 쿠폰 버튼이 적립이 된 경우
             if (resultDB.get(i).getFlag().equals("1")) {
                 //쿠폰 버튼의 모양을 도장 찍은 후의 모양으로 만든다.
                 btn.setBackground(ContextCompat.getDrawable(this, R.drawable.red));
+                btn.setEnabled(false);
+            }
+
+            //FLAG 컬럼의 값이 2 - 무료 사용 가능 쿠폰을 사용하지 않은 경우
+            if (resultDB.get(i).getFlag().equals("2")) {
+                //무료 쿠폰 사용 버튼의 모양을 used 쿠폰으로 변경
+                btn.setBackground(ContextCompat.getDrawable(this, R.drawable.gray));
+                btn.setEnabled(false);
+
+                //단, FLAG 값이 1인 컬럼의 총 수를 구한 flagCount 값을 기준으로
+                //무료 사용 쿠폰 버튼을 활성화 시킨다.
+                if (freeButtonActivity <= flagCount) {
+                    btn.setEnabled(true);
+                    freeButtonActivity++;
+                }
+            }
+
+            //FLAG 컬럼의 값이 2 - 무료 사용 가능 쿠폰을 사용한 경우
+            if (resultDB.get(i).getFlag().equals("2") && resultDB.get(i).getStatus().equals("USED")) {
+                //무료 쿠폰 사용 버튼의 모양을 used 쿠폰으로 변경
+                btn.setBackground(ContextCompat.getDrawable(this, R.drawable.red));
+                btn.setEnabled(false);
             }
         }
 
@@ -170,38 +213,11 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         //클릭된 버튼의 태그 담기
-        buttonTAG = (Integer) v.getTag();
-        Log.e("확인", "버튼 태그: " + buttonTAG);
+        buttonID = v.getId();
+        buttonTAG = (String) v.getTag();
 
-        //buttonTAG 값이 0이고, flag 컬럼이 0이면 무조건 카메라 호출
-        if (buttonTAG == 0) {
-            if (resultDB.get(0).getFlag().equals("0")) {
-                //QR 코드 읽는 카메라 호출
-                new IntentIntegrator(this).initiateScan();
-            } else {
-                //flag 값이 1이면 이미 쿠폰을 찍었다는 의미이므로
-                Toast.makeText(this, "이미 적립된 쿠폰입니다.", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-
-        /* ************************************
-         *** 쿠폰을 순서대로 찍기 위한 방법 ***
-         ************************************ */
-        //buttonTAG 값이 0이 아니고
-        if (buttonTAG != 0) {
-            //앞 쿠폰 번호의 flag 번호가 1이고, 현재 번호의 flag 번호가 0인 경우에만 카메라 호출
-            if (resultDB.get(buttonTAG-1).getFlag().equals("1") && resultDB.get(buttonTAG).getFlag().equals("0")) {
-                //QR 코드 읽는 카메라 호출
-                new IntentIntegrator(this).initiateScan();
-            }
-            //앞 쿠폰 번호의 flag 번호가 1이고, 현재 번호의 flag 번호가 1인 경우에는 이미 적립된 쿠폰이므로 토스트를 호출
-            else if (resultDB.get(buttonTAG-1).getFlag().equals("1") && resultDB.get(buttonTAG).getFlag().equals("1")) {
-                Toast.makeText(this, "이미 적립된 쿠폰입니다.", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "쿠폰은 순서대로 찍어주세요.", Toast.LENGTH_SHORT).show();
-            }
-        }
+        //QR 코드 읽는 카메라 호출
+        new IntentIntegrator(this).initiateScan();
     }
 
 
@@ -215,7 +231,6 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
 
             //result 변수의 contents 안에 들어 있는 정보를 가져와서 check 변수에 담는다.
             String check = result.getContents();
-            //Log.e("확인", "" + check);
 
             //체크 변수의 문자와 비교하기 위한 pw 변수
             // *** 후에 암호화 할 필요가 있음 ***
@@ -223,15 +238,25 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
 
             //QR 코드로 찍은 check 변수의 암호와 내가 지정한 pw 변수의 암호가 동일하다면
             if (check.equals(pw)){
-                //buttonTAG 값을 기준으로 DB의 flag 컬럼을 1로 변경하는 쿼리를 실행한다.
-                //참고로 buttonTAG 값은 0부터 시작하고, DB의 cId 컬럼 값은 1부터 시작하므로 buttonTAG+1을 해주어야 한다.
-                D00_DBManager.dbManager.flagUpdate(buttonTAG+1);
+                //태그가 NORMAL 인 경우
+                if(buttonTAG.equals("NORMAL")) {
+                    //buttonID 값을 기준으로 DB의 flag 컬럼을 1로 변경하는 쿼리를 실행한다.
+                    //참고로 buttonTAG 값은 0부터 시작하고, DB의 cId 컬럼 값은 1부터 시작하므로 buttonTAG+1을 해주어야 한다.
+                    D00_DBManager.dbManager.flagUpdate(1, buttonID+1, "NONE");
+                }
+                //태그가 FREE 인 경우
+                if(buttonTAG.equals("FREE")) {
+                    //buttonID 값을 기준으로 DB의 flag 컬럼을 3로 변경하는 쿼리를 실행한다.
+                    //참고로 buttonTAG 값은 0부터 시작하고, DB의 cId 컬럼 값은 1부터 시작하므로 buttonTAG+1을 해주어야 한다.
+                    D00_DBManager.dbManager.flagUpdate(2, buttonID+1, "USED");
+                }
 
                 //쿠폰에 어떤 변화가 생기는 경우
                 //DB로 부터 값을 가져와서 무조건 처음부터 다시 버튼을 생성해야 쿠폰 버튼의 최신 모양이 반영된다.
-                //J와 K의 값을 초기 값으로 변경하면 버튼을 처음부터 생성한다.
+                //J, K, freeButtonActivity 값을 초기 값으로 변경하면 버튼을 처음부터 생성한다.
                 j = 11;
                 k = 0;
+                freeButtonActivity = 1;
                 linearLayout.removeAllViews();
                 getDB();
             } else {
