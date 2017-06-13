@@ -13,7 +13,7 @@ class D00_DBManager extends SQLiteOpenHelper{
     static D00_DBManager dbManager;
 
     D00_DBManager(Context context) {
-        super(context, "Cafe1637.db", null, 7);
+        super(context, "Cafe1637.db", null, 9);
 
         //onCreate() 메소드가 실행되면서 (혹은 생성자로 클래스를 호출할 때)
         //현 클래스가 스태틱으로 메모리에 등록된다.
@@ -104,7 +104,7 @@ class D00_DBManager extends SQLiteOpenHelper{
         db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 17;");
         db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 18;");
         db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 19;");
-        db.execSQL("update CAFE1637 set flag = 1, status = 'NONE'where id = 20;");
+        db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 20;");
         db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 21;");
         db.execSQL("update CAFE1637 set flag = 2, status = 'UNUSED'where id = 22;");
 
@@ -116,19 +116,19 @@ class D00_DBManager extends SQLiteOpenHelper{
         db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 28;");
         db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 29;");
         db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 30;");
-        db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 31;");
-        db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 32;");
+        db.execSQL("update CAFE1637 set flag = 0, status = 'NONE' where id = 31;");
+        db.execSQL("update CAFE1637 set flag = 0, status = 'NONE' where id = 32;");
         db.execSQL("update CAFE1637 set flag = 2, status = 'UNUSED' where id = 33;");
 
-        db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 34;");
-        db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 35;");
-        db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 36;");
-        db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 37;");
-        db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 38;");
-        db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 39;");
-        db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 40;");
-        db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 41;");
-        db.execSQL("update CAFE1637 set flag = 1, status = 'NONE' where id = 42;");
+        db.execSQL("update CAFE1637 set flag = 0, status = 'NONE' where id = 34;");
+        db.execSQL("update CAFE1637 set flag = 0, status = 'NONE' where id = 35;");
+        db.execSQL("update CAFE1637 set flag = 0, status = 'NONE' where id = 36;");
+        db.execSQL("update CAFE1637 set flag = 0, status = 'NONE' where id = 37;");
+        db.execSQL("update CAFE1637 set flag = 0, status = 'NONE' where id = 38;");
+        db.execSQL("update CAFE1637 set flag = 0, status = 'NONE' where id = 39;");
+        db.execSQL("update CAFE1637 set flag = 0, status = 'NONE' where id = 40;");
+        db.execSQL("update CAFE1637 set flag = 0, status = 'NONE' where id = 41;");
+        db.execSQL("update CAFE1637 set flag = 0, status = 'NONE' where id = 42;");
         db.execSQL("update CAFE1637 set flag = 0, status = 'NONE' where id = 43;");
         db.execSQL("update CAFE1637 set flag = 2, status = 'UNUSED' where id = 44;");
     }

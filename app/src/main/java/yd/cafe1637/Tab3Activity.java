@@ -152,13 +152,16 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
             //FLAG 컬럼의 값이 0 - 쿠폰 버튼이 아직 적립이 되지 않은 경우
             if (resultDB.get(i).getFlag().equals("0")) {
                 //쿠폰 버튼의 모양을 도장 찍기 전의 모양으로 만들고
-                btn.setBackground(ContextCompat.getDrawable(this, R.drawable.gray));
+                btn.setBackground(ContextCompat.getDrawable(this, R.drawable.coupon_normal));
                 //모든 쿠폰 버튼을 비활성화 시킨다.
                 btn.setEnabled(false);
 
                 //단, getCouponId 값에서 빼기 1을 한 버튼만 활성화 시킨다.
                 // (빼기 1을 하는 이유는 버튼의 시작 값은 0이고, DB의 쿠폰 ID는 1부터 시작하기 때문)
                 if (i == getCouponId - 1) {
+                    //버튼 글자색의 경우 다른 레이아웃에 있는 뷰를 불러오는 것이기 때문에
+                    //getResource() 메소드를 사용해야 컬러가 나타난다.
+                    btn.setTextColor(getResources().getColor(R.color.colorAccent));
                     btn.setEnabled(true);
                 }
             }
@@ -166,19 +169,23 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
             //FLAG 컬럼의 값이 1 - 쿠폰 버튼이 적립이 된 경우
             if (resultDB.get(i).getFlag().equals("1")) {
                 //쿠폰 버튼의 모양을 도장 찍은 후의 모양으로 만든다.
-                btn.setBackground(ContextCompat.getDrawable(this, R.drawable.red));
+                btn.setBackground(ContextCompat.getDrawable(this, R.drawable.coupon_accumulation));
                 btn.setEnabled(false);
+                btn.setText("");
             }
 
             //FLAG 컬럼의 값이 2 - 무료 사용 가능 쿠폰을 사용하지 않은 경우
             if (resultDB.get(i).getFlag().equals("2")) {
                 //무료 쿠폰 사용 버튼의 모양을 used 쿠폰으로 변경
-                btn.setBackground(ContextCompat.getDrawable(this, R.drawable.gray));
+                btn.setBackground(ContextCompat.getDrawable(this, R.drawable.coupon_used_normal));
                 btn.setEnabled(false);
 
                 //단, FLAG 값이 1인 컬럼의 총 수를 구한 flagCount 값을 기준으로
                 //무료 사용 쿠폰 버튼을 활성화 시킨다.
                 if (freeButtonActivity <= flagCount) {
+                    //버튼 글자색의 경우 다른 레이아웃에 있는 뷰를 불러오는 것이기 때문에
+                    //getResource() 메소드를 사용해야 컬러가 나타난다.
+                    btn.setTextColor(getResources().getColor(R.color.colorAccent));
                     btn.setEnabled(true);
                     freeButtonActivity++;
                 }
@@ -187,8 +194,9 @@ public class Tab3Activity extends AppCompatActivity implements View.OnClickListe
             //FLAG 컬럼의 값이 2 - 무료 사용 가능 쿠폰을 사용한 경우
             if (resultDB.get(i).getFlag().equals("2") && resultDB.get(i).getStatus().equals("USED")) {
                 //무료 쿠폰 사용 버튼의 모양을 used 쿠폰으로 변경
-                btn.setBackground(ContextCompat.getDrawable(this, R.drawable.red));
+                btn.setBackground(ContextCompat.getDrawable(this, R.drawable.coupon_used));
                 btn.setEnabled(false);
+                btn.setText("");
             }
         }
 
