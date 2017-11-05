@@ -19,3 +19,13 @@
 
  > ##### 2. 쿠폰 적립 이미지
 ![app_image_02](./app/src/main/res/drawable/markdown_02.PNG)
+
+<br />
+
+ > #### 3. 정상 QR 코드
+![app_image_03](./app/src/main/res/drawable/QR_OK.PNG)
+
+<br />
+
+ > #### 4. 에러 QR 코드
+![app_image_04](./app/src/main/res/drawable/QR_NG.PNG)
