@@ -23,9 +23,9 @@
 <br />
 
  > #### 3. 정상 QR 코드
-![app_image_03](./app/src/main/res/drawable/QR_OK.PNG)
+![app_image_03](./app/src/main/res/drawable/qr_ok.png)
 
 <br />
 
  > #### 4. 에러 QR 코드
-![app_image_04](./app/src/main/res/drawable/QR_NG.PNG)
+![app_image_04](./app/src/main/res/drawable/qr_ng.png)
